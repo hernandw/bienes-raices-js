@@ -1,5 +1,6 @@
 import express from 'express'
-import routes from './routes/router.js'
+import { engine } from 'express-handlebars'
+import routes from './routes/userRouter.js'
 const app = express()
 const PORT = process.env.PORT || 3000
 
@@ -9,6 +10,9 @@ app.engine('hbs', engine({
 }));
 app.set('view engine', 'hbs');
 app.set('views', './views');
+
+//carpeta public
+app.use(express.static('public'))
 
 //routes
 app.use('/', routes)
