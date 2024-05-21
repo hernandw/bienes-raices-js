@@ -26,4 +26,10 @@ const register = (req, res) => {
   });
 };
 
-export { home, about, login, register, contact };
+const forget = (req, res)=>{
+  res.render('forget', {
+    title: 'Forget Password'
+  })
+}
+
+export { home, about, login, register, contact, forget };
