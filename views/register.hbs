@@ -3,8 +3,16 @@
     <span class="font-normal">Sueños</span></h1>
   <h2 class="text-center text-2xl font-extrabold">Crear cuenta</h2>
   <div class="mt-8 mx-auto max-w-md bg-white py-8 px-4 shadow">
-    <form class="space-y-5" action="">
+    <form class="space-y-5" action="/register" method="POST" novalidate>
+    {{#if errors}}
+        <div class="max-w-md mx-auto my-10">
+{{#each errors}}
+            <p class="bg-red-600 text-white uppercase font-bold text-xs p-2 rounded text-center mb-1 ">{{msg}}</p>
+{{/each}}
+        </div>
+        {{/if}}
       <div>
+        
         <label
           class="block text-sm uppercase text-gray-500 mb-3 font-bold"
           for="name"
@@ -15,6 +23,7 @@
           id="name"
           placeholder="Tu nombre"
           name="name"
+          
         />
       </div>
       <div>
@@ -28,6 +37,7 @@
           id="email"
           placeholder="Tu email"
           name="email"
+          
         />
       </div>
       <div>
@@ -41,6 +51,7 @@
           id="password"
           placeholder="Tu password"
           name="password"
+          value="{{old.password}}"
         />
       </div>
       <div>
@@ -54,6 +65,7 @@
           id="password2"
           placeholder="Repetir password"
           name="password2"
+          value="{{old.password2}}"
         />
       </div>
       <div class="flex justify-between items-center text-xs text-gray-500">
@@ -62,13 +74,14 @@
         <a class="hover:text-red-900 hover:font-bold" href="/forget">Olvidé mi
           password</a>
       </div>
-
-    </form>
-    <input
+      <input
       class="w-full mt-4 py-3 px-3 border bg-indigo-500 text-white hover:bg-indigo-700 rounded-md cursor-pointer uppercase font-bold"
       type="submit"
       value="Registrarse"
     />
+
+    </form>
+    
 
   </div>
 
