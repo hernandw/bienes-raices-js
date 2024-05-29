@@ -5,16 +5,29 @@ export const fechaQuery = async () => {
   return rows;
 };
 
-export const registerQuery = async (name, email, password) => {
+export const registerQuery = async (name, email, password, token) => {
 
   try {
+
+    //ingresamos los datos en la BB
     const sql = {
-      text: "INSERT INTO users (name, email, password) VALUES ($1, $2, $3) returning *",
-      values: [name, email, password],
+      text: "INSERT INTO users (name, email, password, token) VALUES ($1, $2, $3, $4) returning *",
+      values: [name, email, password, token],
     }
     const response = await pool.query(sql)
-    return response.rows
+    if(response.rowCount > 0) {
+      return response.rows
+    }else{
+      return throwError('Error al registrar usuario')
+    }
+
   } catch (error) {
-    console.log(error)
+    console.log('Error code: ', error.code, '\nMessage: ', error.message);
   }
 };
+
+export const checkEmailExist = async (email) => {
+  const { rows } = await pool.query("SELECT * FROM users WHERE email = $1", [email])
+
+  return rows
+} 

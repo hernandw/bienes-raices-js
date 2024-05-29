@@ -13,9 +13,11 @@
   "author": "Williams Hernandez",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "express": "^4.19.2",
     "express-handlebars": "^7.1.2",
     "express-validator": "^7.1.0",
+    "nodemailer": "^6.9.13",
     "pg": "^8.11.5"
   },
   "devDependencies": {
