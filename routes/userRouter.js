@@ -14,6 +14,8 @@ router.post("/register", controller.register);
 
 router.get("/forget", controller.forget);
 
+router.get("/confirmar/:token", controller.checkToken);
+
 
 
 

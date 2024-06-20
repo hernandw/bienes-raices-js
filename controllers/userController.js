@@ -64,7 +64,32 @@ const register = async (req, res) => {
     sendEmail(name, email, token);
     //Registrar usuario
     await models.register(name, email, passwordHash, token);
-    res.status(201).redirect("/login");
+    res.status(201).render('mensaje',{
+        title: 'Gracias por registrarte',
+        message: 'Hemos enviado un mensaje de confirmación a tu correo',
+        confirmed: false
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const checkToken = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const user = await models.checkToken(token);
+    if (user) {
+      return res.render("mensaje", {
+        title: "Gracias por confirmar tu cuenta",
+        message: "Hemos confirmado tu cuenta, ya puedes iniciar sesión",
+        confirmed: true,
+      });
+    } else {
+      return res.render("mensaje", {
+        title: "Error al confirmar tu cuenta",
+        message: "Hubo un error al confirmar tu cuenta, intenta de nuevo",
+      });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -78,4 +103,5 @@ export const controller = {
   loginForm,
   about,
   forget,
+  checkToken,
 };
