@@ -3,7 +3,7 @@ process.loadEnvFile()
 
 const { EMAIL_USER, EMAIL_PASS, EMAIL_HOST, EMAIL_PORT, FRONTEND_URL, PORT } = process.env
 
-export const sendEmail = async(datos)=>{
+export const sendEmail = async(name, email, token)=>{
     const transport = nodemailer.createTransport({
         host: EMAIL_HOST,
         port: EMAIL_PORT,
@@ -15,7 +15,7 @@ export const sendEmail = async(datos)=>{
         
       });
 
-      const { name, email, token } = datos
+      
       await transport.sendMail({
         from: "Bienes Raices",
         to: email,

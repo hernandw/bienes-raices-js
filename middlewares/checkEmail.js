@@ -1,4 +1,4 @@
-import pool from "../model/config.js";
+import pool from "../models/config.js";
 
 export const checkEmail = async (email) => {
   try {
@@ -41,7 +41,7 @@ export const checkConfirm = async (email) => {
     const sql = {
       text: "Update users set confirm = true, token = null WHERE email = $1 returning *",
       values: [email],
-    }
+    };
 
     const response = await pool.query(sql);
     if (response.rowCount > 0) {

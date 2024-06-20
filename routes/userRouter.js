@@ -1,33 +1,23 @@
 import express from "express";
-import {
-  home,
-  about,
-  contact,
-  loginForm,
-  register,
-  registerForm,
-  forget,
-  confirmar
-  
-} from "../controller/userController.js";
-
-
+import { controller } from "../controllers/userController.js";
 const router = express.Router();
 
-router.get("/", home);
+router.get("/", controller.home);
 
-router.get("/about", about);
+router.get("/register", controller.registerForm);
 
-router.get("/contact", contact);
+router.get("/login", controller.loginForm);
 
-router.get("/login", loginForm);
+router.get("/about", controller.about);
 
-router.get("/register",  registerForm);
+router.post("/register", controller.register);
 
-router.get("/forget", forget);
+router.get("/forget", controller.forget);
 
-router.post("/register", register);
 
-router.get('/confirmar/:token', confirmar)
+
+
+
+router.get("*", controller.notFound);
 
 export default router;

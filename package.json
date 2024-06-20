@@ -1,7 +1,7 @@
 {
   "name": "bienesraices",
   "version": "1.0.0",
-  "description": "",
+  "description": "Breve descripción del proyecto y su objetivo.",
   "main": "index.js",
   "type": "module",
   "scripts": {
