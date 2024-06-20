@@ -4,8 +4,17 @@
   <h2 class="text-center text-2xl font-extrabold">Recupera tu acceso a
     Raices&Sueños</h2>
   <div class="mt-8 mx-auto max-w-md bg-white py-8 px-4 shadow">
-    <form class="space-y-5" action="/forgetPassword" method="POST">
-
+    <form class="space-y-5" action="/forgetPassword" method="POST" >
+{{#if errors}}
+        <div class="max-w-md mx-auto my-4">
+          {{#each errors}}
+            <p
+              class="bg-red-600 text-white uppercase font-bold text-xs p-2 rounded text-center mb-1"
+            >{{msg}}</p>
+          {{/each}}
+        </div>
+      {{/if}}
+      
       <div>
         <label
           class="block text-sm uppercase text-gray-500 mb-3 font-bold"
@@ -17,6 +26,7 @@
           id="email"
           placeholder="Tu email"
           name="email"
+          value="{{old.email}}"
         />
       </div>
       <div class="flex justify-between items-center text-xs text-gray-500">

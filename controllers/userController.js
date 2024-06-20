@@ -1,7 +1,11 @@
 import { models } from "../models/userQueries.js";
 import { check, validationResult } from "express-validator";
 import bcrypt from "bcrypt";
-import { sendEmail } from "../helpers/sendEmailRegister.js";
+import {
+  sendEmailRegistro,
+  emailForgetPassword,
+} from "../helpers/sendEmail.js";
+import { generateId } from "../helpers/generateId.js";
 
 const home = (req, res) => {
   res.render("home");
@@ -26,6 +30,12 @@ const forget = (req, res) => {
 const notFound = (req, res) => {
   res.render("notFound", {
     title: "404 - Página no encontrada",
+  });
+};
+
+const resetPassword = (req, res) => {
+  res.render("resetPassword", {
+    title: "Restablece tu contraseña",
   });
 };
 
@@ -55,19 +65,17 @@ const register = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt);
 
     //creamos el token
-    const token =
-      Math.random().toString(36).substring(2) +
-      Math.random().toString(36).substring(2);
+    const token = generateId();
 
     //enviamos el correo de confirmación
 
-    sendEmail(name, email, token);
+    sendEmailRegistro(name, email, token);
     //Registrar usuario
     await models.register(name, email, passwordHash, token);
-    res.status(201).render('mensaje',{
-        title: 'Gracias por registrarte',
-        message: 'Hemos enviado un mensaje de confirmación a tu correo',
-        confirmed: false
+    res.status(201).render("mensaje", {
+      title: "Gracias por registrarte",
+      message: "Hemos enviado un mensaje de confirmación a tu correo",
+      confirmed: false,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -95,6 +103,101 @@ const checkToken = async (req, res) => {
   }
 };
 
+const forgetPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    await check("email", "Email is required").notEmpty().run(req);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("forget", {
+        errors: errors.array(),
+        old: req.body,
+      });
+    }
+    //generamos un nuevo token
+    const token = generateId();
+
+    //agregamos el token a la cuenta de usuario
+    await models.addToken(token, email);
+    const user = await models.findOneByEmail(email);
+    if (user) {
+      emailForgetPassword(user.name, user.email, user.token);
+      return res.render("mensaje", {
+        title: "Reestablece tu contraseña",
+        message: "Hemos enviado un correo para reestablecer tu contraseña",
+      });
+    } else {
+      return res.render("forget", {
+        title: "Reestablece tu contraseña",
+        errors: [{ msg: "El correo no existe" }],
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const checkTokenReset = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    const user = await models.findOneByToken(token);
+
+    if (user) {
+      return res.render("resetPassword", {
+        title: "Restablecer Contraseña",
+        token,
+      });
+    } else {
+      return res.render("mensaje", {
+        title: "Error al Restablecer tu contraseña",
+        message: "Hubo un error al restablecer tu contraseña, intenta de nuevo",
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const passwordReset = async (req, res) => {
+  const { token } = req.params;
+  const { password, password2 } = req.body;
+  try {
+    await check("password", "Password is minimum 6 characters")
+      .isLength({ min: 6 })
+      .run(req);
+    await check("password2", "Passwords do not match")
+      .equals(password)
+      .run(req);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("resetPassword", {
+        errors: errors.array(),
+        token,
+      });
+    }
+
+    const user = await models.findOneByToken(token);
+    if (user) {
+      const salt = await bcrypt.genSalt();
+      const passwordHash = await bcrypt.hash(password, salt);
+      await models.changePassword(passwordHash, token);
+      return res.render("mensaje", {
+        title: "Contraseña reestablecida",
+        message: "Tu contraseña se ha reestablecido, ya puedes iniciar sesión",
+      });
+    } else {
+      return res.render("forget", {
+        title: "Reestablece tu contraseña",
+        errors: [{ msg: "El token no existe" }],
+      });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const controller = {
   register,
   home,
@@ -104,4 +207,7 @@ export const controller = {
   about,
   forget,
   checkToken,
+  forgetPassword,
+  checkTokenReset,
+  passwordReset,
 };

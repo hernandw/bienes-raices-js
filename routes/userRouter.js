@@ -11,14 +11,14 @@ router.get("/login", controller.loginForm);
 router.get("/about", controller.about);
 
 router.post("/register", controller.register);
+router.get("/confirmar/:token", controller.checkToken); //confirma el token de registro
 
-router.get("/forget", controller.forget);
+router.get("/forget", controller.forget); //carga formulario de olvido
+router.post("/forgetPassword", controller.forgetPassword); //Procesa el formulario de olvido y borra el token
 
-router.get("/confirmar/:token", controller.checkToken);
+router.get("/olvide-password/:token", controller.checkTokenReset); //carga el formulario de cambio de contraseñas
 
-
-
-
+router.post("/olvide-password/:token", controller.passwordReset); //Procesa el formulario de cambio de contraseñas
 
 router.get("*", controller.notFound);
 
