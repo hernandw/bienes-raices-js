@@ -1,6 +1,7 @@
 import express from "express";
 import { engine } from "express-handlebars";
-import routes from "./routes/userRouter.js";
+import userRoutes from "./routes/userRouter.js";
+import propiedadesRoutes from "./routes/propiedadesRouter.js";
 import cookieParser from "cookie-parser";
 
 
@@ -33,7 +34,8 @@ app.use(cookieParser());
 app.use(express.static("public"));
 
 //routes
-app.use("/", routes);
+app.use("/propiedades", propiedadesRoutes);
+app.use("/", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);

@@ -93,6 +93,9 @@ const changePassword = async (password, token) => {
     return false;
   }
 };
+
+
+
 export const models = {
   register,
   checkToken,

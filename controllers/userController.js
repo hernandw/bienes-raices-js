@@ -1,11 +1,15 @@
 import { models } from "../models/userQueries.js";
 import { check, validationResult } from "express-validator";
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import {
   sendEmailRegistro,
   emailForgetPassword,
 } from "../helpers/sendEmail.js";
 import { generateId } from "../helpers/generateId.js";
+
+import { generateToken } from "../helpers/generateToken.js";
+process.loadEnvFile();
 
 const home = (req, res) => {
   res.render("home");
@@ -198,6 +202,47 @@ const passwordReset = async (req, res) => {
   }
 };
 
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    await check("email", "Email is required").notEmpty().run(req);
+    await check("password", "Password is required").notEmpty().run(req);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(200).render("login", {
+        errors: errors.array(), //para mostrar todos los errores
+        old: req.body,
+      });
+    }
+
+    const user = await models.findOneByEmail(email);
+
+    if (user) {
+      const validPassword = await bcrypt.compare(password, user.password);
+      if (validPassword) {
+        const token = generateToken(user._id, user.email);
+
+        res.cookie("tokenJWT", token, {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+        });
+
+        return res.redirect("/propiedades")
+      
+      } else {
+        return res.render("login", {
+          title: "Iniciar Sesion",
+          errors: [{ msg: "Correo o contraseña incorrecta" }],
+          old: req.body
+        });
+      }
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 export const controller = {
   register,
   home,
@@ -210,4 +255,5 @@ export const controller = {
   forgetPassword,
   checkTokenReset,
   passwordReset,
+  login,
 };
