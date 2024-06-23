@@ -24,14 +24,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     map.panTo(new L.LatLng(position.lat, position.lng));
 
-
     geocodeService
-    .reverse()
-    .latlng(position, 13).run((result) => {
-      console.log(result);
-    })
+      .reverse()
+      .latlng(position, 13)
+      .run(function (error, result) {
+        if (error) {
+         console.log(error.message);
+        }else{
+           console.log(result);
+        }
+        marker.bindPopup(result.address.LongLabel)
+        
+        
+        
+        //llenar los camos de la calle
+        document.querySelector(".street").textContent = result?.address?.Address ?? "";
+        document.querySelector("#street").value = result?.address.Address ?? "";
+        document.querySelector("#lat").value = result?.latlng?.lat ?? "";
+        document.querySelector("#lng").value = result?.latlng?.lng ?? "";
 
+      });
   });
-
-  
 });
