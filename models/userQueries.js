@@ -94,6 +94,29 @@ const changePassword = async (password, token) => {
   }
 };
 
+const findAllCategory = async () => {
+  const sql = {
+    text: "SELECT * FROM category",
+  };
+  const response = await pool.query(sql);
+  if (response.rowCount > 0) {
+    return response.rows;
+  } else {
+    return false;
+  }
+};
+
+const findAllPrice = async () => {
+  const sql = {
+    text: "SELECT * FROM price",
+  };
+  const response = await pool.query(sql);
+  if (response.rowCount > 0) {
+    return response.rows;
+  } else {
+    return false;
+  }
+};
 
 
 export const models = {
@@ -103,4 +126,6 @@ export const models = {
   addToken,
   findOneByToken,
   changePassword,
+  findAllCategory,
+  findAllPrice
 };

@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "css": "postcss public/css/tailwind.css -o public/css/style.css --watch"
+    "css": "postcss public/css/tailwind.css -o public/css/style.css --watch",
+    "data": "node config/getTables.js"
   },
   "keywords": [],
   "author": "Williams Hernandez",
