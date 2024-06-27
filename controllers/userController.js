@@ -1,6 +1,6 @@
 import { models } from "../models/userQueries.js";
 import { check, validationResult } from "express-validator";
-import jwt from "jsonwebtoken";
+
 import bcrypt from "bcrypt";
 import {
   sendEmailRegistro,
@@ -220,21 +220,21 @@ const login = async (req, res) => {
     if (user) {
       const validPassword = await bcrypt.compare(password, user.password);
       if (validPassword) {
-        const token = generateToken(user._id, user.email);
+        const token = generateToken(user.id, user.email);
 
         res.cookie("tokenJWT", token, {
           httpOnly: true,
           secure: true,
           sameSite: "none",
+          expiresIn: 4000000,
         });
 
-        return res.redirect("/propiedades")
-      
+        return res.redirect("/propiedades");
       } else {
         return res.render("login", {
           title: "Iniciar Sesion",
           errors: [{ msg: "Correo o contraseña incorrecta" }],
-          old: req.body
+          old: req.body,
         });
       }
     }

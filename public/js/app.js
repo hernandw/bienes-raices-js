@@ -4,10 +4,8 @@ const lat = document.getElementById("lat").value || -18.4900773;
 const lng = document.getElementById("lng").value || -70.277749;
 let marker;
 
-
-const apiKey  = "AAPK896adcc73c7648b2a32b6dca0182b86f9TEhwXkbtj-KWBk4UsEi3nY_acGVTyLNrKva2kRePTeJDii8Z_DcHkwTmRWJiGkV"
-  
-  
+const apiKey =
+  "AAPK896adcc73c7648b2a32b6dca0182b86f9TEhwXkbtj-KWBk4UsEi3nY_acGVTyLNrKva2kRePTeJDii8Z_DcHkwTmRWJiGkV";
 
 const geocodeService = L.esri.Geocoding.geocodeService({
   apikey: apiKey,
@@ -24,13 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
   marker = new L.marker([lat, lng], {
     draggable: true,
     autoPan: true,
-    
   }).addTo(map);
 
   marker.on("moveend", function (e) {
     marker = e.target;
     const position = marker.getLatLng();
-    
 
     map.panTo(new L.LatLng(position.lat, position.lng));
 
