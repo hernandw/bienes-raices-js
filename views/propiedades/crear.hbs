@@ -1,7 +1,18 @@
 <div class="py-10">
   <h1 class="my-10 text-4xl font-extrabold text-center">Raices
     <span class="font-normal">Sueños</span></h1>
-  <h2 class="text-center text-2xl font-extrabold"></h2>
+  <h2 class="text-center text-2xl font-extrabold">Crear Propiedad</h2>
+  <div>
+    {{#if errors}}
+      <div class="max-w-md mx-auto my-4">
+        {{#each errors}}
+          <p
+            class="bg-red-600 text-white uppercase font-bold text-xs p-2 rounded text-center mb-1"
+          >{{msg}}</p>
+        {{/each}}
+      </div>
+    {{/if}}
+  </div>
   <div
     class="bg-white shadow rounded mx-auto py-8 px-4 max-w-4xl my-10 md:px-10"
   >
@@ -36,7 +47,8 @@
             id="description"
             class="w-full py-2 px-3 border border-gray-300 rounded-md placeholder-gray-400"
             placeholder="Descripción de la Propiedad"
-          ></textarea>
+            
+          >{{old.description}}</textarea>
         </div>
         <div class="md:flex md:gap-4 space-y-5 md:space-y-0">
             <div class="md:w-1/2">
@@ -48,10 +60,11 @@
               class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
               name="category"
               id="category"
+              
             >
-              <option value="" disabled selected>-- Seleccione una --</option>
+              <option value="">-- Seleccione una --</option>
               {{#each categories}}
-              <option value="{{this.id}}">{{this.name}}</option>
+              <option value="{{this.id}}" {{#if (eq this.id ../old.category)}}selected{{/if}}>{{this.name}}</option>
               {{/each}}
             </select>
           </div>
@@ -60,14 +73,12 @@
               class="block text-sm uppercase text-gray-500 mb-3 font-bold"
               for="price"
             >Precio:</label>
-            <select
-              class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
-              name="price"
-              id="price"
-            >
-              <option value="" disabled selected>-- Seleccione una --</option>
+            <select class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400" 
+            name="price" 
+            id="price">
+              <option value="">-- Seleccione una --</option>
               {{#each prices}}
-              <option value="{{this.id}}">{{this.name}}</option>
+              <option value="{{this.id}}" {{#if (eq this.id ../old.price)}}selected{{/if}}>{{this.name}}</option>
               {{/each}}
             </select>
           </div>
@@ -77,16 +88,17 @@
             <div class="md:w-1/3">
             <label
               class="block text-sm uppercase text-gray-500 mb-3 font-bold"
-              for="room"
+              for="rooms"
             >Habitaciones:</label>
             <select
               class="w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400"
               name="rooms"
-              id="room"
+              id="rooms"
+              value="{{old.rooms}}"
             >
               <option value="" disabled selected>-- Seleccione una --</option>
               {{#each rooms}}
-              <option value="{{this}}">{{this}}</option>
+             <option value="{{this}}" {{#if (eq this ../old.rooms)}}selected{{/if}}>{{this}}</option>
               {{/each}}
             </select>
           </div>
@@ -102,7 +114,7 @@
             >
               <option value="" disabled selected>-- Seleccione una --</option>
               {{#each rooms}}
-              <option value="{{this}}">{{this}}</option>
+              <option value="{{this}}" {{#if (eq this ../old.parking)}}selected{{/if}}>{{this}}</option>
               {{/each}}
             </select>
           </div>
@@ -118,7 +130,7 @@
             >
               <option value="" disabled selected>-- Seleccione una --</option>
               {{#each rooms}}
-              <option value="{{this}}">{{this}}</option>
+              <option value="{{this}}" {{#if (eq this ../old.wc)}}selected{{/if}}>{{this}}</option>
               {{/each}}
             </select>
           </div>
@@ -132,14 +144,21 @@
     </div>
     <div id="map" class="w-full h-96"></div>
     <div>
-      <p class="street"></p>
+      <p class="street">{{old.street}}</p>
     </div>
-    <input type="hidden" name="street" id="street">
-    <input type="hidden" name="lat" id="lat">
-    <input type="hidden" name="lng" id="lng">
+   <input class="border border-gray-300" type="hidden" name="street" id="street" value="{{old.street}}" >
+    <input class="border border-gray-300" type="hidden" name="lat" id="lat" value="{{old.lat}}">
+    <input class="border border-gray-300" type="hidden" name="lng" id="lng" value="{{old.lng}}">
+     
     
     
     
+    <button
+      type="submit"
+      class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-indigo-500 rounded"
+    >
+      Crear Propiedad
+    </button>
     </form>
     
 
