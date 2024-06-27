@@ -7,6 +7,6 @@ const secretKey = process.env.JWT_SECRET_KEY;
 
 export const generateToken = (id, email) => {
     return jwt.sign({ id, email }, secretKey, {
-        expiresIn: 40
+        expiresIn: '3m'
     })
 }

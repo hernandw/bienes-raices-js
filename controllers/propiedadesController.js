@@ -1,5 +1,7 @@
 import { check, validationResult } from "express-validator";
 import { models } from "../models/propiedadesQueries.js";
+import { generateId } from "../helpers/generateId.js";
+
 
 const admin = (req, res) => {
   res.render("propiedades/misPropiedades", {
@@ -17,7 +19,9 @@ const crear = async (req, res) => {
 };
 
 const guardar = async (req, res) => {
+  
   const {
+    id: id = generateId(),
     title,
     description,
     rooms,
@@ -33,6 +37,7 @@ const guardar = async (req, res) => {
   const user_id = req.user;
 
   const propiedad = {
+    id,
     title,
     description,
     rooms,

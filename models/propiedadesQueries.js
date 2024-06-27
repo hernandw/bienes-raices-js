@@ -1,6 +1,7 @@
 import { pool } from "../config/db.js";
 
 const createPropiedad = async ({
+  id,
   title,
   description,
   rooms,
@@ -15,8 +16,9 @@ const createPropiedad = async ({
 }) => {
   try {
     const sql = {
-      text: "INSERT INTO propiedades (title, description, rooms, category_id, precio_id, parking, wc, street, lat, lng, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
+      text: "INSERT INTO propiedades (id, title, description, rooms, category_id, precio_id, parking, wc, street, lat, lng, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
       values: [
+        id,
         title,
         description,
         rooms,

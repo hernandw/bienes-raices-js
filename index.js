@@ -3,8 +3,7 @@ import { engine } from "express-handlebars";
 import userRoutes from "./routes/userRouter.js";
 import propiedadesRoutes from "./routes/propiedadesRouter.js";
 import cookieParser from "cookie-parser";
-
-
+import fileUpload from "express-fileupload";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +28,13 @@ app.set("views", "./views");
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  fileUpload({
+    limits: { fileSize: 5 * 1024 * 1024 },
+    abortOnLimit: true,
+    responseOnLimit: "El archivo es demasiado grande",
+  })
+);
 
 //carpeta public
 app.use(express.static("public"));

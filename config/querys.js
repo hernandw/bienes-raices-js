@@ -18,7 +18,7 @@ const createTableUsers = `CREATE TABLE IF NOT EXISTS users(
 )`;
 
 const createTablePropiedades = `CREATE TABLE IF NOT EXISTS propiedades (
-    id SERIAL PRIMARY KEY,
+    id VARCHAR(30) PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description VARCHAR(100) NOT NULL,
     rooms INTEGER NOT NULL,
@@ -28,7 +28,7 @@ const createTablePropiedades = `CREATE TABLE IF NOT EXISTS propiedades (
     lat VARCHAR(100) NOT NULL,
     lng VARCHAR(100) NOT NULL,
     published BOOLEAN DEFAULT false,
-    image VARCHAR(100) NOT NULL,
+    image VARCHAR(100),
     precio_id INTEGER NOT NULL REFERENCES price(id) ON DELETE CASCADE ON UPDATE CASCADE,
     user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
     category_id INTEGER NOT NULL REFERENCES category(id) ON DELETE CASCADE ON UPDATE CASCADE
