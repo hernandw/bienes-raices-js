@@ -8,7 +8,7 @@ let marker;
 
 
 const geocodeService = L.esri.Geocoding.geocodeService({
-  apikey
+  apikey //modificar con su API de ArcGis
 });
 
 const map = L.map("map").setView([lat, lng], 13);
@@ -36,8 +36,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .run(function (error, result) {
         if (error) {
           console.log(error.message);
-        } else {
-          console.log(result);
         }
         marker.bindPopup(result.address.LongLabel);
 
