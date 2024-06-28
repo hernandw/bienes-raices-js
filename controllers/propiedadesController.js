@@ -1,6 +1,7 @@
 import { check, validationResult } from "express-validator";
 import { models } from "../models/propiedadesQueries.js";
 import { generateId } from "../helpers/generateId.js";
+import { v4 as uuidv4 } from "uuid";
 
 
 const admin = (req, res) => {
@@ -35,6 +36,14 @@ const guardar = async (req, res) => {
   } = req.body;
 
   const user_id = req.user;
+  
+  //guardamos la imagen en el servidor y en la BBDD como enlace
+  const {image} = req.files;
+
+  const imageName = uuidv4().slice(0, 8);
+      const imageUrl = `/uploads/${imageName}.png`;
+  
+      image.mv(`./public/uploads/${imageName}.png`);
 
   const propiedad = {
     id,
@@ -49,7 +58,7 @@ const guardar = async (req, res) => {
     lat,
     lng,
     user_id,
-    
+    image: imageUrl,
   };
 
   //validamos los campos

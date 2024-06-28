@@ -12,11 +12,12 @@ const createPropiedad = async ({
   street,
   lat,
   lng,
-  user_id
+  user_id,
+  image
 }) => {
   try {
     const sql = {
-      text: "INSERT INTO propiedades (id, title, description, rooms, category_id, precio_id, parking, wc, street, lat, lng, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
+      text: "INSERT INTO propiedades (id, title, description, rooms, category_id, precio_id, parking, wc, street, lat, lng, user_id, image) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *",
       values: [
         id,
         title,
@@ -29,7 +30,8 @@ const createPropiedad = async ({
         street,
         lat,
         lng,
-        user_id
+        user_id,
+        image
       ],
     };
     const response = await pool.query(sql);

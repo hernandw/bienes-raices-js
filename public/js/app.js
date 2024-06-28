@@ -1,14 +1,14 @@
+import { apikey } from "../config/variable.js";
 
 
 const lat = document.getElementById("lat").value || -18.4900773;
 const lng = document.getElementById("lng").value || -70.277749;
 let marker;
 
-const apiKey =
-  "AAPK896adcc73c7648b2a32b6dca0182b86f9TEhwXkbtj-KWBk4UsEi3nY_acGVTyLNrKva2kRePTeJDii8Z_DcHkwTmRWJiGkV";
+
 
 const geocodeService = L.esri.Geocoding.geocodeService({
-  apikey: apiKey,
+  apikey
 });
 
 const map = L.map("map").setView([lat, lng], 13);

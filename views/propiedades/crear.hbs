@@ -16,7 +16,7 @@
   <div
     class="bg-white shadow rounded mx-auto py-8 px-4 max-w-4xl my-10 md:px-10"
   >
-    <form class="space-y-5" action="/propiedades/crear" method="POST">
+    <form class="space-y-5" action="/propiedades/crear" method="POST" enctype="multipart/form-data">
       <div class="space-y-5">
         <h3 class="text-lg leading-6 font-medium text-gray-900">Información
           General</h3>
@@ -149,13 +149,27 @@
    <input class="border border-gray-300" type="hidden" name="street" id="street" value="{{old.street}}" >
     <input class="border border-gray-300" type="hidden" name="lat" id="lat" value="{{old.lat}}">
     <input class="border border-gray-300" type="hidden" name="lng" id="lng" value="{{old.lng}}">
+    <div class="border-gray-200 border-t-2 space-y-5">
+<h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Imágenes de la propiedad</h3>
+<p class="text-gray-600">Agrega una imagen de la propiedad</p>
+    </div>
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        
+        <input
+          class="w-full py-2 px-3 border border-gray-300 rounded-md placeholder-gray-400"
+          type="file"
+          id="image"
+          name="image"
+        />
+    </div>
      
     
     
     
     <button
       type="submit"
-      class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-indigo-500 rounded"
+      class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-indigo-500 rounded mt-8"
     >
       Crear Propiedad
     </button>
