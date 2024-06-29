@@ -140,6 +140,7 @@ const editForm = async (req, res) => {
 
   //validamos que exista la propiedad
   const prop = await models.findPropertyById(id);
+  console.log(prop)
   if (!prop) {
     return res.redirect("/propiedades");
   }
@@ -147,14 +148,14 @@ const editForm = async (req, res) => {
   if(prop.user_id !== idUser){
     return res.redirect("/propiedades");
   }
-  const propiedad = await models.findPropertyById(id);
-  console.log(propiedad);
+  
+  
   res.render("propiedades/editar", {
     title: "Editar Propiedades",
     rooms: ["1", "2", "3", "4"],
     categories: await models.findAllCategory(),
     prices: await models.findAllPrice(),
-    propiedad,
+    old: prop,
   });
 };
 
