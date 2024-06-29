@@ -6,9 +6,12 @@ import { v4 as uuidv4 } from "uuid";
 const admin = async (req, res) => {
   const id = req.user;
 
+  const propiedades = await models.findAllPropertyByUser(id)
+  console.log(propiedades)
+
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
-    propiedades: await models.findAllPropertyByUser(id),
+    propiedades,
   });
 };
 
@@ -132,13 +135,20 @@ const saveForm = async (req, res) => {
 
 const editForm = async (req, res) => {
   const { id } = req.params;
+  const idUser = req.user;
+  
 
   //validamos que exista la propiedad
   const prop = await models.findPropertyById(id);
   if (!prop) {
     return res.redirect("/propiedades");
-  } 
+  }
+  
+  if(prop.user_id !== idUser){
+    return res.redirect("/propiedades");
+  }
   const propiedad = await models.findPropertyById(id);
+  console.log(propiedad);
   res.render("propiedades/editar", {
     title: "Editar Propiedades",
     rooms: ["1", "2", "3", "4"],

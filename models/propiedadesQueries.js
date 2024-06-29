@@ -78,7 +78,7 @@ const findAllPrice = async () => {
 const findAllPropertyByUser = async (id) => {
   try {
     const sql = {
-      text: "SELECT p.id, p.title, price.name AS precio, p.published, category.name AS categoria FROM propiedades p JOIN price ON p.precio_id = price.id JOIN category ON p.category_id = category.id WHERE user_id = $1",
+      text: "SELECT p.id, p.title, price.name AS precio, p.published, p.image, c.name AS categoria FROM propiedades p JOIN price ON p.precio_id = price.id JOIN category c ON p.category_id = c.id WHERE user_id = $1",
       values: [id],
     };
     const response = await pool.query(sql);
