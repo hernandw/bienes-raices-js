@@ -3,9 +3,13 @@ import { models } from "../models/propiedadesQueries.js";
 import { generateId } from "../helpers/generateId.js";
 import { v4 as uuidv4 } from "uuid";
 
-const admin = (req, res) => {
+const admin = async (req, res) => {
+  const  id  = req.user;
+  
+  
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
+    propiedades: await models.findAllPropertybyUser(id),
   });
 };
 
@@ -35,10 +39,7 @@ const guardar = async (req, res) => {
 
   const user_id = req.user;
 
-  
   try {
-    
-    
     //validamos los campos
     await check("title")
       .notEmpty()
@@ -76,9 +77,6 @@ const guardar = async (req, res) => {
       .withMessage("Debes ubicar la calle en el mapa")
       .run(req);
 
-  
-
-
     //validar errores
 
     const errors = validationResult(req);
@@ -93,19 +91,19 @@ const guardar = async (req, res) => {
     }
 
     //guardamos la imagen en el servidor y en la BBDD como enlace
-  if(!req.files){
-    return res.render("propiedades/crear", {
-      errors: errors.array(),
-      old: req.body,
-      rooms: ["1", "2", "3", "4"],
-      categories: await models.findAllCategory(),
-      prices: await models.findAllPrice(),
-      errors: [{msg: "Subir una imagen es obligatorio"}],
-    });
-  }
-  const { image } = req.files;
+    if (!req.files) {
+      return res.render("propiedades/crear", {
+        errors: errors.array(),
+        old: req.body,
+        rooms: ["1", "2", "3", "4"],
+        categories: await models.findAllCategory(),
+        prices: await models.findAllPrice(),
+        errors: [{ msg: "Subir una imagen es obligatorio" }],
+      });
+    }
+    const { image } = req.files;
 
-  const imageName = uuidv4().slice(0, 8);
+    const imageName = uuidv4().slice(0, 8);
     const imageUrl = `/uploads/${imageName}.png`;
 
     image.mv(`./public/uploads/${imageName}.png`);
@@ -126,9 +124,8 @@ const guardar = async (req, res) => {
       image: imageUrl,
     };
 
-
     const result = await models.createPropiedad(propiedad);
-    res.send('ok');
+    await res.send("ok");
   } catch (error) {
     console.log("Error code: ", error.code, "\nMessage: ", error.message);
   }
