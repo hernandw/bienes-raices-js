@@ -4,16 +4,15 @@ import { generateId } from "../helpers/generateId.js";
 import { v4 as uuidv4 } from "uuid";
 
 const admin = async (req, res) => {
-  const  id  = req.user;
-  
-  
+  const id = req.user;
+
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
-    propiedades: await models.findAllPropertybyUser(id),
+    propiedades: await models.findAllPropertyByUser(id),
   });
 };
 
-const crear = async (req, res) => {
+const createForm = async (req, res) => {
   res.render("propiedades/crear", {
     title: "Crear Propiedades",
     rooms: ["1", "2", "3", "4"],
@@ -22,7 +21,7 @@ const crear = async (req, res) => {
   });
 };
 
-const guardar = async (req, res) => {
+const saveForm = async (req, res) => {
   const {
     id: id = generateId(),
     title,
@@ -124,15 +123,34 @@ const guardar = async (req, res) => {
       image: imageUrl,
     };
 
-    const result = await models.createPropiedad(propiedad);
+    const result = await models.createProperty(propiedad);
     await res.send("ok");
   } catch (error) {
     console.log("Error code: ", error.code, "\nMessage: ", error.message);
   }
 };
 
+const editForm = async (req, res) => {
+  const { id } = req.params;
+
+  //validamos que exista la propiedad
+  const prop = await models.findPropertyById(id);
+  if (!prop) {
+    return res.redirect("/propiedades");
+  } 
+  const propiedad = await models.findPropertyById(id);
+  res.render("propiedades/editar", {
+    title: "Editar Propiedades",
+    rooms: ["1", "2", "3", "4"],
+    categories: await models.findAllCategory(),
+    prices: await models.findAllPrice(),
+    propiedad,
+  });
+};
+
 export const propiedadesController = {
   admin,
-  crear,
-  guardar,
+  createForm,
+  saveForm,
+  editForm,
 };

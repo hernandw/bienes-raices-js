@@ -5,8 +5,10 @@ const router = express.Router();
 
 router.get("/", protectedRoutes, propiedadesController.admin);
 
-router.get("/crear", propiedadesController.crear);
+router.get("/crear",protectedRoutes, propiedadesController.createForm);
 
-router.post("/crear", protectedRoutes, propiedadesController.guardar);
+router.post("/crear", protectedRoutes, propiedadesController.saveForm);
+
+router.get("/edit/:id", protectedRoutes, propiedadesController.editForm);
 
 export default router;

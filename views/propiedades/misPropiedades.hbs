@@ -52,7 +52,7 @@
               <input type="submit" value={{#if this.published}}Publicado{{else}}'No publicado'{{/if}}
                 class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer {{#if this.published}}bg-green-100 text-green-700{{else}}bg-yellow-100 text-yellow-700{{/if}}">
             </form>
-            <a href="/propiedades/{{this.id}}"
+            <a href="/propiedades/edit/{{this.id}}"
               class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-indigo-100 text-indigo-700">Editar</a>
             <form action="/propiedades/{{this.id}}" method="POST">
               <input type="submit" value="Eliminar"
