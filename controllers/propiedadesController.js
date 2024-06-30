@@ -6,8 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const admin = async (req, res) => {
   const id = req.user;
 
-  const propiedades = await models.findAllPropertyByUser(id)
-  console.log(propiedades)
+  const propiedades = await models.findAllPropertyByUser(id);
 
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
@@ -134,29 +133,71 @@ const saveForm = async (req, res) => {
 };
 
 const editForm = async (req, res) => {
-  const { id } = req.params;
-  const idUser = req.user;
-  
+  try {
+    const { id } = req.params;
+    const idUser = req.user;
 
-  //validamos que exista la propiedad
-  const prop = await models.findPropertyById(id);
-  console.log(prop)
-  if (!prop) {
-    return res.redirect("/propiedades");
+    //validamos que exista la propiedad
+    const prop = await models.findPropertyById(id);
+
+    if (!prop) {
+      return res.redirect("/propiedades");
+    }
+
+    if (prop.user_id !== idUser) {
+      return res.redirect("/propiedades");
+    }
+
+    res.render("propiedades/editar", {
+      title: "Editar Propiedades",
+      rooms: ["1", "2", "3", "4"],
+      categories: await models.findAllCategory(),
+      prices: await models.findAllPrice(),
+      old: prop,
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  
-  if(prop.user_id !== idUser){
-    return res.redirect("/propiedades");
+};
+
+const edit = async (req, res) => {
+  const {
+    id,
+    title,
+    description,
+    rooms,
+    category,
+    price,
+    parking,
+    wc,
+    street,
+    lat,
+    lng,
+  } = req.body;
+
+  const user_id = req.user;
+
+  try {
+    const propiedades = {
+      title,
+      description,
+      rooms,
+      category_id: category,
+      precio_id: price,
+      parking,
+      wc,
+      street,
+      lat,
+      lng,
+      user_id,
+      id,
+    };
+
+    await models.editProperty(propiedades);
+    res.status(200).redirect("/propiedades");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
-  
-  
-  res.render("propiedades/editar", {
-    title: "Editar Propiedades",
-    rooms: ["1", "2", "3", "4"],
-    categories: await models.findAllCategory(),
-    prices: await models.findAllPrice(),
-    old: prop,
-  });
 };
 
 export const propiedadesController = {
@@ -164,4 +205,5 @@ export const propiedadesController = {
   createForm,
   saveForm,
   editForm,
+  edit,
 };

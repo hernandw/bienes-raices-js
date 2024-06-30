@@ -14,7 +14,7 @@ const createProperty = async ({
   lat,
   lng,
   user_id,
-  image
+  image,
 }) => {
   try {
     const sql = {
@@ -88,7 +88,7 @@ const findAllPropertyByUser = async (id) => {
       return false;
     }
   } catch (error) {
-     console.log("Error code: ", error.code, "\nMessage: ", error.message);
+    console.log("Error code: ", error.code, "\nMessage: ", error.message);
   }
 };
 
@@ -110,7 +110,6 @@ const findPropertyById = async (id) => {
 };
 
 const editProperty = async ({
-  id,
   title,
   description,
   rooms,
@@ -122,36 +121,35 @@ const editProperty = async ({
   lat,
   lng,
   user_id,
-  image
+  id,
 }) => {
-try {
-  const sql = { 
-    text: "UPDATE propiedades SET title = $1, description = $2, rooms = $3, category_id = $4, precio_id = $5, parking = $6, wc = $7, street = $8, lat = $9, lng = $10, user_id = $11, image = $12 WHERE id = $13  RETURNING *",
-    values: [
-      title,
-      description,
-      rooms,
-      category_id,
-      precio_id,
-      parking,
-      wc,
-      street,
-      lat,
-      lng,
-      user_id,
-      image,
-      id
-    ],
-  };
-  const response = await pool.query(sql);
-  if (response.rowCount > 0) {
-    return response.rows[0];
-  } else {
-    return false;
+  try {
+    const sql = {
+      text: "UPDATE propiedades SET title = $1, description = $2, rooms = $3, category_id = $4, precio_id = $5, parking = $6, wc = $7, street = $8, lat = $9, lng = $10, user_id = $11  WHERE id = $12  RETURNING *",
+      values: [
+        title,
+        description,
+        rooms,
+        category_id,
+        precio_id,
+        parking,
+        wc,
+        street,
+        lat,
+        lng,
+        user_id,
+        id,
+      ],
+    };
+    const response = await pool.query(sql);
+    if (response.rowCount > 0) {
+      return response.rows[0];
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("Error code: ", error.code, "\nMessage: ", error.message);
   }
-} catch (error) {
-  console.log("Error code: ", error.code, "\nMessage: ", error.message);
-}
 };
 
 export const models = {

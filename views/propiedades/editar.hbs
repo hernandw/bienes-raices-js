@@ -13,7 +13,8 @@
     {{/if}}
   </div>
   <div class="bg-white shadow rounded mx-auto py-8 px-4 max-w-4xl my-10 md:px-10">
-    <form class="space-y-5" action="/propiedades/crear" method="POST" enctype="multipart/form-data">
+    <form class="space-y-5">
+      <input type="hidden" id="id" name="id" value="{{old.id}}">
       <div class="space-y-5">
         <h3 class="text-lg leading-6 font-medium text-gray-900">Información
           General</h3>
@@ -102,19 +103,14 @@
       <input class="border border-gray-300" type="hidden" name="lat" id="lat"
         value="{{#if old.lat}}{{old.lat}}{{else}}{{old.lat  }}{{/if}}">
       <input class="border border-gray-300" type="hidden" name="lng" id="lng" value="{{old.lng}}">
-      
-      
-        
 
 
+      <button type="submit"
+        class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-indigo-500 rounded mt-8">
+        Actualizar Propiedad
+      </button>
 
 
-        <button type="submit"
-          class="w-full bg-indigo-500 hover:bg-indigo-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-indigo-500 rounded mt-8">
-          Actualizar Propiedad
-        </button>
-
-      
     </form>
 
 
@@ -124,11 +120,12 @@
 
 
 </div>
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/esri-leaflet@3.0.12/dist/esri-leaflet.js"></script>
 <script src="https://unpkg.com/esri-leaflet-geocoder@3.1.4/dist/esri-leaflet-geocoder.js" crossorigin=""></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leatflet-geosearch/2.7.0/bundle.min.js"></script>
 
 
-
 <script type="module" src="/js/app.js"></script>
+<script type="module" src="/js/edit.js"></script>
