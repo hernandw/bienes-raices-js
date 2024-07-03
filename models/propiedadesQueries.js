@@ -95,7 +95,7 @@ const findAllPropertyByUser = async (id) => {
 const findPropertyById = async (id) => {
   try {
     const sql = {
-      text: "SELECT * FROM propiedades WHERE id = $1",
+      text: "SELECT p.id, p.title, price.name AS precio, p.published, p.image, p.wc, p.rooms, p.parking, p.street, p.lat, p.lng, c.name AS categoria FROM propiedades p JOIN price ON p.precio_id = price.id JOIN category c ON p.category_id = c.id WHERE p.id = $1",
       values: [id],
     };
     const response = await pool.query(sql);
@@ -152,6 +152,23 @@ const editProperty = async ({
   }
 };
 
+const deleteProperty = async (id) => {
+  try {
+    const sql = {
+      text: "DELETE FROM propiedades WHERE id = $1",
+      values: [id],
+    };
+   const response = await pool.query(sql);
+    if(response.rowCount > 0) {
+      return true;
+    } else {
+      return new Error("No se pudo eliminar la propiedad");
+    }
+  } catch (error) {
+    console.log("Error code: ", error.code, "\nMessage: ", error.message);
+  }
+};
+
 export const models = {
   createProperty,
   findAllCategory,
@@ -159,4 +176,5 @@ export const models = {
   findAllPropertyByUser,
   findPropertyById,
   editProperty,
+  deleteProperty,
 };

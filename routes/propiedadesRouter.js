@@ -11,6 +11,12 @@ router.post("/crear", protectedRoutes, propiedadesController.saveForm);
 
 router.get("/edit/:id", protectedRoutes, propiedadesController.editForm);
 
-router.put("/edit/:id",  protectedRoutes, propiedadesController.edit);
+router.put("/edit/:id",  protectedRoutes, propiedadesController.editProperty);
+
+router.post("/delete/:id", protectedRoutes, propiedadesController.deleteProperty);
+
+//Propiedades Públicas
+
+router.get("/:id", propiedadesController.getPropertiesById);
 
 export default router;

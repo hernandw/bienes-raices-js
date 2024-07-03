@@ -2,6 +2,7 @@ import { check, validationResult } from "express-validator";
 import { models } from "../models/propiedadesQueries.js";
 import { generateId } from "../helpers/generateId.js";
 import { v4 as uuidv4 } from "uuid";
+import fs from "fs";
 
 const admin = async (req, res) => {
   const id = req.user;
@@ -126,9 +127,9 @@ const saveForm = async (req, res) => {
     };
 
     const result = await models.createProperty(propiedad);
-    await res.send("ok");
+    await res.status(201).redirect("/propiedades");
   } catch (error) {
-    console.log("Error code: ", error.code, "\nMessage: ", error.message);
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -160,7 +161,7 @@ const editForm = async (req, res) => {
   }
 };
 
-const edit = async (req, res) => {
+const editProperty = async (req, res) => {
   const {
     id,
     title,
@@ -200,10 +201,39 @@ const edit = async (req, res) => {
   }
 };
 
+const deleteProperty = async (req, res) => {
+  const { id } = req.params;
+
+  const prop = await models.findPropertyById(id);
+
+  //Eliminar la imagen
+  fs.unlinkSync(`./public/${prop.image}`);
+
+  try {
+    await models.deleteProperty(id);
+    res.redirect("/propiedades");
+  } catch (error) {
+    console.log("Error code: ", error.code, "\nMessage: ", error.message);
+  }
+};
+
+const getPropertiesById = async (req, res) => {
+  const { id } = req.params;
+
+  const prop = await models.findPropertyById(id);
+
+  res.render("propiedades/detail", {
+    title: "Detalle",
+    propiedad: prop,
+  });
+};
+
 export const propiedadesController = {
   admin,
   createForm,
   saveForm,
   editForm,
-  edit,
+  editProperty,
+  deleteProperty,
+  getPropertiesById,
 };

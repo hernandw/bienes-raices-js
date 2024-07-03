@@ -6,7 +6,7 @@
     class="rounded-md bg-indigo-600 text-white uppercase font-bold text-sm py-2 px-10 text-center hover:bg-indigo-700 transition-colors w-full sm:w-auto inline-block mb-5">Publicar
     Propiedad</a>
   {{#if propiedades}}
-  
+
 
   <div class="bg-white shadow rounded-lg">
     <ul class="divide-y divide-gray-200">
@@ -30,17 +30,23 @@
               {{this.precio}}</p>
 
           </div>
-          <div class="sm:w-1/4 md:w-2/6 lg:flex-1 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-center">
-            <form action="/propiedades/{{this.id}}" method="POST">
+          <div
+            class="sm:w-1/4 md:w-2/6 lg:flex-1 flex flex-col md:flex-row md:justify-between md:items-center gap-4 text-center">
+            <form>
               <input type="submit" value={{#if this.published}}Publicado{{else}}'No publicado'{{/if}}
                 class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer {{#if this.published}}bg-green-100 text-green-700{{else}}bg-yellow-100 text-yellow-700{{/if}}">
             </form>
             <a href="/propiedades/edit/{{this.id}}"
               class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-indigo-100 text-indigo-700">Editar</a>
-            <form action="/propiedades/{{this.id}}" method="POST">
-              <input type="submit" value="Eliminar"
-                class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-red-100 text-red-700 ">
-            </form>
+            
+              <form action="/propiedades/delete/{{this.id}}" method="POST">
+              <button type="submit"
+                class="w-full px-2 py-2 md:py-1 text-xs leading-5 font-semibold rounded cursor-pointer bg-red-100 text-red-700">Eliminar</button>
+              </form>
+            
+              
+            
+
           </div>
         </div>
       </li>
@@ -53,6 +59,8 @@
   <p class="text-center">No hay propiedades</p>
 
   {{/if}}
+
+  
 
 
 
