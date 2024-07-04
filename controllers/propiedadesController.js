@@ -1,17 +1,35 @@
 import { check, validationResult } from "express-validator";
 import { models } from "../models/propiedadesQueries.js";
 import { generateId } from "../helpers/generateId.js";
+import { generarArray } from "../helpers/generarArray.js";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 
 const admin = async (req, res) => {
   const id = req.user;
-
-  const propiedades = await models.findAllPropertyByUser(id);
+  const limit = req.query.limit || 10;
+  const page = parseInt(req.query.page) || 1;
+  const offset = (page - 1) * limit;
+  const startIndex = offset + 1
+  const endIndex = parseInt(offset) + parseInt(limit);
+  const propiedades = await models.findAllPropertyByUser(id, limit, offset);
+  const prop = await models.countPropertyByUser(id);
+  const total = prop.length  || 0;
+  const paginas = generarArray(Math.ceil(total / limit));
+  
+ 
 
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
     propiedades,
+    total,
+    paginas,
+    page,
+    offset,
+    limit,
+    startIndex,
+    endIndex
+
   });
 };
 

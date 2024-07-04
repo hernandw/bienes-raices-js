@@ -17,6 +17,17 @@ app.engine(
       eq: (a, b) => {
         return a == b;
       },
+      sum: (a, b) => {
+        return a + b;
+      },
+      compare: (a, b) => {
+        if (a < b ) {
+          return a;
+        } else {
+          return b ;
+        }
+      }
+      
     },
   })
 );

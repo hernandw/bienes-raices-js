@@ -75,10 +75,29 @@ const findAllPrice = async () => {
   }
 };
 
-const findAllPropertyByUser = async (id) => {
+const findAllPropertyByUser = async (id, limit, offset) => {
+
+  
   try {
     const sql = {
-      text: "SELECT p.id, p.title, price.name AS precio, p.published, p.image, c.name AS categoria FROM propiedades p JOIN price ON p.precio_id = price.id JOIN category c ON p.category_id = c.id WHERE user_id = $1",
+      text: "SELECT p.id, p.title, price.name AS precio, p.published, p.image, c.name AS categoria FROM propiedades p JOIN price ON p.precio_id = price.id JOIN category c ON p.category_id = c.id WHERE user_id = $1 LIMIT $2 OFFSET $3",
+      values: [id, limit, offset],
+    };
+    const response = await pool.query(sql);
+    if (response.rowCount > 0) {
+      return response.rows;
+    } else {
+      return false;
+    }
+  } catch (error) {
+    console.log("Error code: ", error.code, "\nMessage: ", error.message);
+  }
+};
+
+const countPropertyByUser = async (id) => {
+  try {
+    const sql = {
+      text: "SELECT * FROM propiedades WHERE user_id = $1",
       values: [id],
     };
     const response = await pool.query(sql);
@@ -177,4 +196,5 @@ export const models = {
   findPropertyById,
   editProperty,
   deleteProperty,
+  countPropertyByUser,
 };
