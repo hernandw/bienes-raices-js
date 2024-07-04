@@ -26,6 +26,9 @@ app.engine(
         } else {
           return b ;
         }
+      },
+      rest: (a, b) => {
+        return a - b;
       }
       
     },

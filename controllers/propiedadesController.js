@@ -7,17 +7,16 @@ import fs from "fs";
 
 const admin = async (req, res) => {
   const id = req.user;
-  const limit = req.query.limit || 10;
+  const limit = req.query.limit || 4;
   const page = parseInt(req.query.page) || 1;
   const offset = (page - 1) * limit;
-  const startIndex = offset + 1
+  const startIndex = offset + 1;
   const endIndex = parseInt(offset) + parseInt(limit);
   const propiedades = await models.findAllPropertyByUser(id, limit, offset);
   const prop = await models.countPropertyByUser(id);
-  const total = prop.length  || 0;
+  const total = prop.length || 0;
   const paginas = generarArray(Math.ceil(total / limit));
-  
- 
+  const totalPages = Math.ceil(total / limit);
 
   res.render("propiedades/misPropiedades", {
     title: "Mis Propiedades",
@@ -28,8 +27,8 @@ const admin = async (req, res) => {
     offset,
     limit,
     startIndex,
-    endIndex
-
+    endIndex,
+    totalPages,
   });
 };
 
