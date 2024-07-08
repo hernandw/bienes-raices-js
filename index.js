@@ -2,6 +2,7 @@ import express from "express";
 import { engine } from "express-handlebars";
 import userRoutes from "./routes/userRouter.js";
 import propiedadesRoutes from "./routes/propiedadesRouter.js";
+import appRoutes from "./routes/appRouter.js";
 import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
@@ -55,7 +56,9 @@ app.use(express.static("public"));
 
 //routes
 app.use("/propiedades", propiedadesRoutes);
-app.use("/", userRoutes);
+app.use("/", appRoutes);
+app.use("/auth", userRoutes);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);

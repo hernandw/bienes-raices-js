@@ -1,10 +1,9 @@
 import { pool } from "./db.js";
 
-
 const deletePropiedades = async () => {
-    const sql = "DROP TABLE propiedades";
-    await pool.query(sql);
-  };
+  const sql = "DROP TABLE propiedades";
+  await pool.query(sql);
+};
 const deleteCategory = async () => {
   const sql = "DROP TABLE category";
   await pool.query(sql);
@@ -20,14 +19,12 @@ const deleteUsers = async () => {
   await pool.query(sql);
 };
 
-
-
 try {
-    await deletePropiedades();
-    await deleteCategory();
-    await deletePrice();
-    await deleteUsers();
-    console.log("tables deleted");
+  await deletePropiedades();
+  await deleteCategory();
+  await deletePrice();
+  await deleteUsers();
+  console.log("tables deleted");
 } catch (error) {
-    console.log("Error code: ", error.code, "\nMessage: ", error.message);
+  console.log("Error code: ", error.code, "\nMessage: ", error.message);
 }

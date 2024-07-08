@@ -42,6 +42,8 @@ const insertCategory = `INSERT INTO category(name) VALUES ('Vivienda'), ('Comerc
 
 const insertPrice = `INSERT INTO price(name) VALUES ('0 - $10,000 USD'), ('$10,000 - $30,000 USD'), ('$30,000 - $50,000 USD'), ('$50,000 - $100,000 USD'), ('$100,000 - $200,000 USD'), ('$200,000 - $500,000 USD'), ('$500,000 - $1,000,000 USD'), ('1,000,000 - $2,000,000 USD'), ('2,000,000 - $5,000,000 USD'), ('5,000,000 - $10,000,000 USD');`;
 
+
+
 export const querys = {
   createTableUsers,
   createTableCategory,

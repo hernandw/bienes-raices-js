@@ -18,7 +18,7 @@ const admin = async (req, res) => {
   const paginas = generarArray(Math.ceil(total / limit));
   const totalPages = Math.ceil(total / limit);
 
-  res.render("propiedades/misPropiedades", {
+  res.render("property/misPropiedades", {
     title: "Mis Propiedades",
     propiedades,
     total,
@@ -29,15 +29,17 @@ const admin = async (req, res) => {
     startIndex,
     endIndex,
     totalPages,
+    barra: true,
   });
 };
 
 const createForm = async (req, res) => {
-  res.render("propiedades/crear", {
+  res.render("property/crear", {
     title: "Crear Propiedades",
     rooms: ["1", "2", "3", "4"],
     categories: await models.findAllCategory(),
     prices: await models.findAllPrice(),
+    barra: true
   });
 };
 
@@ -100,24 +102,26 @@ const saveForm = async (req, res) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.render("propiedades/crear", {
+      return res.render("property/crear", {
         errors: errors.array(),
         old: req.body,
         rooms: ["1", "2", "3", "4"],
         categories: await models.findAllCategory(),
         prices: await models.findAllPrice(),
+        barra: true
       });
     }
 
     //guardamos la imagen en el servidor y en la BBDD como enlace
     if (!req.files) {
-      return res.render("propiedades/crear", {
+      return res.render("property/crear", {
         errors: errors.array(),
         old: req.body,
         rooms: ["1", "2", "3", "4"],
         categories: await models.findAllCategory(),
         prices: await models.findAllPrice(),
         errors: [{ msg: "Subir una imagen es obligatorio" }],
+        barra: true
       });
     }
     const { image } = req.files;
@@ -144,7 +148,7 @@ const saveForm = async (req, res) => {
     };
 
     const result = await models.createProperty(propiedad);
-    await res.status(201).redirect("/propiedades");
+    await res.status(201).redirect("/property");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -159,19 +163,20 @@ const editForm = async (req, res) => {
     const prop = await models.findPropertyById(id);
 
     if (!prop) {
-      return res.redirect("/propiedades");
+      return res.redirect("/property");
     }
 
     if (prop.user_id !== idUser) {
-      return res.redirect("/propiedades");
+      return res.redirect("/property");
     }
 
-    res.render("propiedades/editar", {
+    res.render("property/editar", {
       title: "Editar Propiedades",
       rooms: ["1", "2", "3", "4"],
       categories: await models.findAllCategory(),
       prices: await models.findAllPrice(),
       old: prop,
+      barra: true
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -212,7 +217,7 @@ const editProperty = async (req, res) => {
     };
 
     await models.editProperty(propiedades);
-    res.status(200).redirect("/propiedades");
+    res.status(200).redirect("/property");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -223,12 +228,16 @@ const deleteProperty = async (req, res) => {
 
   const prop = await models.findPropertyById(id);
 
+  if (!prop) {
+    return res.redirect("/property/index");
+  }
+
   //Eliminar la imagen
   fs.unlinkSync(`./public/${prop.image}`);
 
   try {
     await models.deleteProperty(id);
-    res.redirect("/propiedades");
+    res.status(200).redirect("/property/index");
   } catch (error) {
     console.log("Error code: ", error.code, "\nMessage: ", error.message);
   }
@@ -239,9 +248,10 @@ const getPropertiesById = async (req, res) => {
 
   const prop = await models.findPropertyById(id);
 
-  res.render("propiedades/detail", {
+  res.render("property/detail", {
     title: "Detalle",
     propiedad: prop,
+    barra: true
   });
 };
 

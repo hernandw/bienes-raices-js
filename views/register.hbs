@@ -12,7 +12,7 @@
         </div>
       {{/if}}
   <div class="mt-8 mx-auto max-w-md bg-white py-8 px-4 shadow">
-    <form class="space-y-5" action="/register" method="POST" novalidate>
+    <form class="space-y-5" action="/auth/register" method="POST" novalidate>
       
       <div>
 
@@ -70,9 +70,9 @@
         />
       </div>
       <div class="flex justify-between items-center text-xs text-gray-500">
-        <a class="hover:text-red-900 hover:font-bold" href="/login">¿Ya tienes
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/login">¿Ya tienes
           una cuenta? Inicia sesión</a>
-        <a class="hover:text-red-900 hover:font-bold" href="/forget">Olvidé mi
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/forget">Olvidé mi
           password</a>
       </div>
       <input

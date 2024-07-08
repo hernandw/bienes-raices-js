@@ -1,6 +1,5 @@
 <div class="py-10">
-  <h1 class="my-10 text-4xl font-extrabold text-center">Raices
-    <span class="font-normal">Sueños</span></h1>
+  
   <h2 class="text-center text-2xl font-extrabold">Inicia Sesión</h2>
   {{#if errors}}
     <div class="max-w-md mx-auto my-10">
@@ -12,7 +11,7 @@
     </div>
   {{/if}}
   <div class="mt-8 mx-auto max-w-md bg-white py-8 px-4 shadow">
-    <form class="space-y-5" action="/login" method="POST" novalidate>
+    <form class="space-y-5" action="/auth/login" method="POST" novalidate>
 
       <div>
         <label
@@ -43,13 +42,13 @@
       </div>
 
       <div class="flex justify-between items-center text-xs text-gray-500">
-        <a class="hover:text-red-900 hover:font-bold" href="/register">¿No
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/register">¿No
           tienes cuenta? Regístrate</a>
-        <a class="hover:text-red-900 hover:font-bold" href="/forget">Olvidé mi
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/forget">Olvidé mi
           password</a>
       </div>
       <input
-        class="w-full mt-4 py-3 px-3 border bg-indigo-500 text-white hover:bg-indigo-700 rounded-md cursor-pointer uppercase font-bold"
+        class="w-full mt-4 py-3 px-3 border bg-cyan-700 text-white hover:bg-cyan-800 rounded-md cursor-pointer uppercase font-bold"
         type="submit"
         value="Iniciar sesión"
       />

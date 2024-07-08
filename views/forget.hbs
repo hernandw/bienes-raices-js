@@ -13,7 +13,7 @@
         </div>
       {{/if}}
   <div class="mt-8 mx-auto max-w-md bg-white py-8 px-4 shadow">
-    <form class="space-y-5" action="/forgetPassword" method="POST" >
+    <form class="space-y-5" action="/auth/forgetPassword" method="POST" >
 
       
       <div>
@@ -31,9 +31,9 @@
         />
       </div>
       <div class="flex justify-between items-center text-xs text-gray-500">
-        <a class="hover:text-red-900 hover:font-bold" href="/login">¿Ya tienes
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/login">¿Ya tienes
           una cuenta? Inicia sesión</a>
-        <a class="hover:text-red-900 hover:font-bold" href="/register">No tienes
+        <a class="hover:text-red-900 hover:font-bold" href="/auth/register">No tienes
           cuenta? Registrate</a>
       </div>
       <input

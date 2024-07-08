@@ -3,7 +3,7 @@ import { propiedadesController } from "../controllers/propiedadesController.js";
 import { protectedRoutes } from "../middlewares/protectedRoutes.js";
 const router = express.Router();
 
-router.get("/", protectedRoutes, propiedadesController.admin);
+router.get("/index", protectedRoutes, propiedadesController.admin);
 
 router.get("/crear",protectedRoutes, propiedadesController.createForm);
 

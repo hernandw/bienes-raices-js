@@ -11,16 +11,21 @@ import { generateId } from "../helpers/generateId.js";
 import { generateToken } from "../helpers/generateToken.js";
 process.loadEnvFile();
 
-const home = (req, res) => {
-  res.render("home");
-};
+
 
 const registerForm = (req, res) => {
-  res.render("register");
+  res.render("register", {
+    title: "Register",
+  
+      
+  });
 };
 
 const loginForm = (req, res) => {
-  res.render("login");
+  res.render("login", {
+    title: "Login",
+    
+  });
 };
 
 const about = (req, res) => {
@@ -28,17 +33,16 @@ const about = (req, res) => {
 };
 
 const forget = (req, res) => {
-  res.render("forget");
-};
-
-const notFound = (req, res) => {
-  res.render("notFound", {
-    title: "404 - Página no encontrada",
+  res.render("auth/forget",{
+    title: "Reestablece tu contraseña",
+    
   });
 };
 
+
+
 const resetPassword = (req, res) => {
-  res.render("resetPassword", {
+  res.render("auth/resetPassword", {
     title: "Restablece tu contraseña",
   });
 };
@@ -59,7 +63,7 @@ const register = async (req, res) => {
     //Validar errores
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("register", {
+      return res.status(400).render("auth/register", {
         errors: errors.array(),
         old: req.body,
       });
@@ -245,8 +249,6 @@ const login = async (req, res) => {
 
 export const controller = {
   register,
-  home,
-  notFound,
   registerForm,
   loginForm,
   about,
@@ -255,5 +257,7 @@ export const controller = {
   forgetPassword,
   checkTokenReset,
   passwordReset,
+
+  
   login,
 };

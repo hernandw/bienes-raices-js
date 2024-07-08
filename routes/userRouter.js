@@ -3,7 +3,7 @@ import { controller } from "../controllers/userController.js";
 
 const router = express.Router();
 
-router.get("/", controller.home);
+
 
 router.get("/register", controller.registerForm);
 
@@ -23,6 +23,6 @@ router.get("/olvide-password/:token", controller.checkTokenReset); //carga el fo
 
 router.post("/olvide-password/:token", controller.passwordReset); //Procesa el formulario de cambio de contraseñas
 
-router.get("*", controller.notFound);
+
 
 export default router;
