@@ -15,7 +15,7 @@
   "author": "Williams Hernandez",
   "license": "MIT",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
 
